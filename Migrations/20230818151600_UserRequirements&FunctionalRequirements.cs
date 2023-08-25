@@ -113,23 +113,11 @@ namespace api_software_documentation.Migrations
                 name: "IX_UserRequirements_ProjectId",
                 table: "UserRequirements",
                 column: "ProjectId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ProjectCharters_Projects_ProjectId",
-                table: "ProjectCharters",
-                column: "ProjectId",
-                principalTable: "Projects",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_ProjectCharters_Projects_ProjectId",
-                table: "ProjectCharters");
-
             migrationBuilder.DropTable(
                 name: "FunctionalRequirements_UserRequirements");
 
@@ -155,19 +143,6 @@ namespace api_software_documentation.Migrations
                 oldClrType: typeof(int),
                 oldType: "int")
                 .OldAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_ProjectCharters",
-                table: "ProjectCharters",
-                column: "ProjectId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ProjectCharters_Projects_ProjectId",
-                table: "ProjectCharters",
-                column: "ProjectId",
-                principalTable: "Projects",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
     }
 }

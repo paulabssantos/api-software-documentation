@@ -15,7 +15,7 @@ public class UserRequirement
     public virtual Project Project { get; set; }
 
     [Required]
-    public int Sequential { get; set; }
+    public int Sequential { get; set; } = 1;
 
     [Required]
     public string Description { get; set; }
