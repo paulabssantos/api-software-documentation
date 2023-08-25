@@ -20,6 +20,8 @@ builder.Services.AddScoped<IProjectCharterRepository, ProjectCharterRepository>(
 builder.Services.AddScoped<CreateProjectCharterService>();
 builder.Services.AddScoped<IUserRequirementRepository, UserRequirementRepository>();
 builder.Services.AddScoped<CreateUserRequirementsService>();
+builder.Services.AddScoped<IFunctionalRequirementRepository, FunctionalRequirementRepository>();
+builder.Services.AddScoped<CreateFunctionalRequirementsService>();
 //Libraries
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-using api_software_documentation.src.Domain.Entities;
-
 namespace api_software_documentation.Src.Domain.Entities;
 
 public class ReadUserRequirementDto
