@@ -4,23 +4,8 @@ using api_software_documentation.Src.Domain.Enums;
 
 namespace api_software_documentation.Src.Domain.Entities;
 
-public class FunctionalRequirement
+public class FunctionalRequirement : Requirements
 {
-    [Key]
-    public int Id { get; set; }
-
-    [Required]
-    public int ProjectId { get; set; }
-
-    [Required]
-    public virtual Project Project { get; set; }
-
-    [Required]
-    public int Sequential { get; set; }
-
-    [Required]
-    public string Description { get; set; }
-
     [Required]
     public string Actor { get; set; }
 
