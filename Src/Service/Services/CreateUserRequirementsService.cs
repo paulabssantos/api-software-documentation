@@ -6,14 +6,16 @@ using AutoMapper;
 
 public class CreateUserRequirementsService
 {
+    private CreateRequirementsFactory _createRequirementsFactory;
     private readonly IUserRequirementRepository _userRequirementRepository;
     private readonly IProjectRepository _projectRepository;
     private readonly IMapper _mapper;
-    public CreateUserRequirementsService(IMapper mapper, IUserRequirementRepository userRequirementRepository, IProjectRepository projectRepository)
+    public CreateUserRequirementsService(IMapper mapper, CreateRequirementsFactory createRequirementsFactory, IUserRequirementRepository userRequirementRepository, IProjectRepository projectRepository)
     {
         _userRequirementRepository = userRequirementRepository;
         _projectRepository = projectRepository;
         _mapper = mapper;
+        _createRequirementsFactory = createRequirementsFactory;
     }
 
     public (List<ReadUserRequirementDto>?, ErrorResponse?) Execute(List<CreateUserRequirementDto> createUserRequirementDto, int ProjectId)
@@ -31,12 +33,9 @@ public class CreateUserRequirementsService
         {
             sequential = lastUserRequirement.Sequential;
         }
-        userRequirements.ForEach(userRequirement =>
-        {
-            sequential = sequential + 1;
-            userRequirement.Sequential = sequential;
-            userRequirement.ProjectId = ProjectId;
-        });
+        _createRequirementsFactory.SetSequential(sequential, userRequirements);
+        _createRequirementsFactory.SetProjectId(ProjectId, userRequirements);
+
         var createdUserRequirements = _mapper.Map<List<ReadUserRequirementDto>>(_userRequirementRepository.Create(userRequirements));
         return (createdUserRequirements, null);
     }

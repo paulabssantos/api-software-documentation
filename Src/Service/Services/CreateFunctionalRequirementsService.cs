@@ -5,14 +5,16 @@ using AutoMapper;
 
 public class CreateFunctionalRequirementsService
 {
+    private CreateRequirementsFactory _createRequirementsFactory;
     private readonly IFunctionalRequirementRepository _functionalRequirementRepository;
     private readonly IProjectRepository _projectRepository;
     private readonly IMapper _mapper;
-    public CreateFunctionalRequirementsService(IMapper mapper, IFunctionalRequirementRepository functionalRequirementRepository, IProjectRepository projectRepository)
+    public CreateFunctionalRequirementsService(IMapper mapper, CreateRequirementsFactory createRequirementsFactory, IFunctionalRequirementRepository functionalRequirementRepository, IProjectRepository projectRepository)
     {
         _functionalRequirementRepository = functionalRequirementRepository;
         _projectRepository = projectRepository;
         _mapper = mapper;
+        _createRequirementsFactory = createRequirementsFactory;
     }
 
     public (List<ReadFunctionalRequirementDto>?, ErrorResponse?) Execute(List<CreateFunctionalRequirementDto> createFunctionalRequirementDto, int ProjectId)
@@ -30,12 +32,9 @@ public class CreateFunctionalRequirementsService
         {
             sequential = lastFunctionalRequirement.Sequential;
         }
-        functionalRequirements.ForEach(functionalRequirement =>
-        {
-            sequential = sequential + 1;
-            functionalRequirement.Sequential = sequential;
-            functionalRequirement.ProjectId = ProjectId;
-        });
+        _createRequirementsFactory.SetSequential(sequential, functionalRequirements);
+        _createRequirementsFactory.SetProjectId(ProjectId, functionalRequirements);
+
         var createdFunctionalRequirements = _mapper.Map<List<ReadFunctionalRequirementDto>>(_functionalRequirementRepository.Create(functionalRequirements));
         return (createdFunctionalRequirements, null);
     }
