@@ -1,12 +1,11 @@
 ﻿using api_software_documentation.src.Domain.Entities;
-using api_software_documentation.Src.Domain.Dtos;
 
 namespace api_software_documentation.Src.Domain.Interfaces;
 
 public interface IProjectCharterRepository
 {
-    public ProjectCharter Create(CreateProjectCharterDto createProjectCharterDto, int version);
-    public ReadProjectCharterDto FindLastByProjectId(int projectId);
+    public ProjectCharter Create(ProjectCharter projectCharter);
+    public ProjectCharter? FindLastByProjectId(int projectId);
 
-    public ReadProjectCharterDto FindById(int id);
+    public ProjectCharter? FindById(int id);
 }

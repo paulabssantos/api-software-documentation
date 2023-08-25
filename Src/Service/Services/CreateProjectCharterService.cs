@@ -1,45 +1,47 @@
-﻿using System;
-using api_software_documentation.src.Domain.Entities;
+﻿using api_software_documentation.src.Domain.Entities;
 using api_software_documentation.src.Domain.Interfaces;
 using api_software_documentation.Src.Application.Errors;
 using api_software_documentation.Src.Domain.Dtos;
 using api_software_documentation.Src.Domain.Interfaces;
-using Castle.Components.DictionaryAdapter.Xml;
-using Newtonsoft.Json;
+using AutoMapper;
 
 namespace api_software_documentation.src.Service.Services;
 
 public class CreateProjectCharterService
 {
+    private readonly IMapper _mapper;
     private readonly IProjectRepository _projectRepository;
     private readonly IProjectCharterRepository _projectCharterRepository;
 
-    public CreateProjectCharterService(IProjectRepository projectRepository, IProjectCharterRepository projectCharterRepository)
+    public CreateProjectCharterService(IMapper mapper, IProjectRepository projectRepository, IProjectCharterRepository projectCharterRepository)
     {
         _projectRepository = projectRepository;
         _projectCharterRepository = projectCharterRepository;
+        _mapper = mapper;
     }
 
-    public (ReadProjectCharterDto?,ErrorResponse?) Execute(CreateProjectCharterDto dto) 
+    public (ReadProjectCharterDto?, ErrorResponse?) Execute(CreateProjectCharterDto createProjectCharterDto)
     {
-        var project = _projectRepository.FindById(dto.ProjectId);
+        var project = _projectRepository.FindById(createProjectCharterDto.ProjectId);
 
-        if(project == null)
+        if (project == null)
         {
             return (null, new ErrorResponse("Projeto não encontrado", 404));
         }
 
-        var lastProjectCharter = _projectCharterRepository.FindLastByProjectId(project.Id);
+        var lastProjectCharter = _mapper.Map<ReadProjectCharterDto>(_projectCharterRepository.FindLastByProjectId(project.Id));
 
         var version = 1;
-        if(lastProjectCharter != null) 
+        if (lastProjectCharter != null)
         {
             version = lastProjectCharter.Version + 1;
         }
 
-        var createdProjectCharter = _projectCharterRepository.Create(dto, version);
+        var projectCharter = _mapper.Map<ProjectCharter>(createProjectCharterDto);
+        projectCharter.Version = version;
 
-        return (_projectCharterRepository.FindById(createdProjectCharter.Id),null);
+        var createdProjectCharter = _projectCharterRepository.Create(projectCharter);
+        return (_mapper.Map<ReadProjectCharterDto>(_projectCharterRepository.FindById(createdProjectCharter.Id)), null);
     }
 }
 
