@@ -26,6 +26,11 @@ public class CreateUserRequirementsService
         var userRequirements = _mapper.Map<List<UserRequirement>>(createUserRequirementDto);
 
         var sequential = 0;
+        var lastUserRequirement = _userRequirementRepository.FindLastByProjectId(ProjectId);
+        if (lastUserRequirement != null)
+        {
+            sequential = lastUserRequirement.Sequential;
+        }
         userRequirements.ForEach(userRequirement =>
         {
             sequential = sequential + 1;

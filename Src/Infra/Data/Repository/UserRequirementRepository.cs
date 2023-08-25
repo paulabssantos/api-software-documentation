@@ -17,6 +17,12 @@ public class UserRequirementRepository : IUserRequirementRepository
         return userRequirements;
     }
 
+    public UserRequirement? FindLastByProjectId(int ProjectId)
+    {
+        var userRequirement = _mySqlContext.UserRequirements.OrderByDescending(userRequirement => userRequirement.Sequential).FirstOrDefault(userRequirement => userRequirement.ProjectId == ProjectId);
+        return userRequirement;
+    }
+
     public List<UserRequirement> ListByProjectId(int ProjectId)
     {
         var userRequirements = _mySqlContext.UserRequirements.Where(userRequirements => userRequirements.ProjectId == ProjectId).ToList();
