@@ -6,8 +6,9 @@ namespace api_software_documentation.Src.Application.Controllers;
 
 [ApiController]
 [Route("/projectCharter")]
+[Tags("Project Charter")]
 public class CreateProjectCharterController : ControllerBase
-{   
+{
     private readonly CreateProjectCharterService _createProjectCharterService;
 
     public CreateProjectCharterController(CreateProjectCharterService createProjectCharterService)
@@ -19,7 +20,7 @@ public class CreateProjectCharterController : ControllerBase
     public IActionResult Handle([FromBody] CreateProjectCharterDto dto)
     {
         var (projectCharter, error) = _createProjectCharterService.Execute(dto);
-        if(error !=  null)
+        if (error != null)
         {
             return StatusCode(error.statusCode, error);
         }

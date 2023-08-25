@@ -6,6 +6,7 @@ namespace api_software_documentation.src.Application.Controllers;
 
 [ApiController]
 [Route("/project")]
+[Tags("Project")]
 public class CreateProjectController : ControllerBase
 {
     private readonly CreateProjectService _createProjectService;

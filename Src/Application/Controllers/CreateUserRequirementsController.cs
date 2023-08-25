@@ -5,6 +5,7 @@ namespace api_software_documentation.Src.Application.Controllers;
 
 [ApiController]
 [Route("/userRequirements")]
+[Tags("User Requirements")]
 public class CreateUserRequirementsController : ControllerBase
 {
     private readonly CreateUserRequirementsService _createUserRequirementsService;
