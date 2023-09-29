@@ -14,14 +14,18 @@ builder.Services.AddDbContext<MySqlContext>(opts => opts.UseLazyLoadingProxies()
 // Add services to the container.
 
 //Dependency Injection
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<CreateProjectService>();
-builder.Services.AddScoped<IProjectCharterRepository, ProjectCharterRepository>();
 builder.Services.AddScoped<CreateProjectCharterService>();
-builder.Services.AddScoped<IUserRequirementRepository, UserRequirementRepository>();
 builder.Services.AddScoped<CreateUserRequirementsService>();
-builder.Services.AddScoped<IFunctionalRequirementRepository, FunctionalRequirementRepository>();
 builder.Services.AddScoped<CreateFunctionalRequirementsService>();
+builder.Services.AddScoped<SendMailHomologationProjectCharterService>();
+ 
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IProjectCharterRepository, ProjectCharterRepository>();
+builder.Services.AddScoped<IUserRequirementRepository, UserRequirementRepository>();
+builder.Services.AddScoped<IFunctionalRequirementRepository, FunctionalRequirementRepository>();
+
+
 builder.Services.AddScoped<CreateRequirementsFactory>();
 //Libraries
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
